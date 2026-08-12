@@ -1,5 +1,4 @@
 import { Toaster } from 'react-hot-toast';
-
 import AppRoutes from './routes/Approutes';
 import { AuthProvider } from './context/AuthContext';
 import { BookingProvider } from './context/BookingContext';
