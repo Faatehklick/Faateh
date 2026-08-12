@@ -7,11 +7,12 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative flex items-center min-h-[745px] bg-center pt-32 pb-20"
+      className="relative flex items-center min-h-[745px] bg-center bg-cover pt-32 pb-20"  // <--- Halkan ku dar bg-cover
       style={{
         backgroundImage: `linear-gradient(rgba(8,20,40,0.55), rgba(8,20,40,0.85)), url(${heroImage})`,
       }}
     >
+    
       <div className="relative max-w-3xl mx-auto px-6 text-center">
         <div className="inline-flex items-center gap-2 bg-white/10 border border-white/25 text-amber-400 px-4 py-1.5 rounded-full text-[12px] font-semibold uppercase tracking-wide mb-6">
           ★ Trusted by 50,000+ travelers worldwide

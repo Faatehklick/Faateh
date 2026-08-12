@@ -18,7 +18,6 @@ const writeHotels = (hotels: Hotel[]) => {
   localStorage.setItem(HOTELS_KEY, JSON.stringify(hotels));
 };
 
-/** Reads the mock-auth token to find the current user's id, without importing mockAuth. */
 const currentUserId = (): string => {
   const token = localStorage.getItem("faateh_token") ?? "";
   return token.split("-")[2] ?? "anonymous";
@@ -66,7 +65,7 @@ export const mockHotelsApi = {
       childrenAllowed: payload.childrenAllowed ?? true,
       cancellationPolicy: payload.cancellationPolicy ?? null,
       additionalPolicy: payload.additionalPolicy ?? null,
-      isVerified: false, // mimics real flow: awaits admin approval
+      isVerified: false,
       coverImage: payload.coverImagePreview ?? null,
       logoImage: payload.logoImagePreview ?? null,
       images: [],
@@ -108,19 +107,11 @@ export const mockHotelsApi = {
     return readHotels().filter((h) => h.hostId === uid);
   },
 
-  /**
-   * Admin-only: every hotel regardless of verification status, for the
-   * approvals screen. Mirrors hotelsApi.adminList().
-   */
   adminList: async (): Promise<Hotel[]> => {
     await delay();
     return readHotels();
   },
 
-  /**
-   * Admin-only: approve (true) or reject (false) a pending hotel.
-   * Mirrors hotelsApi.setVerified().
-   */
   setVerified: async (hotelId: string, isVerified: boolean): Promise<Hotel> => {
     await delay();
     const hotels = readHotels();

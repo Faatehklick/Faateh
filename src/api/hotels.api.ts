@@ -1,11 +1,11 @@
 import { api, toFormData, unwrapList, unwrapOne } from "./client";
-import { mockHotelsApi } from "./mockHotels";
 import type {
   CreateHotelPayload,
   Hotel,
   HotelFilters,
   UpdateHotelPayload,
 } from "../types/hotel";
+import { mockHotelsApi } from "./mockHotels"; // Fixed with 's'
 
 const USE_MOCK = import.meta.env.VITE_MOCK_API === "true";
 
@@ -65,23 +65,14 @@ export const hotelsApi = {
     return unwrapList<Hotel>(data);
   },
 
-  /**
-   * Admin-only: every hotel regardless of verification status, for the
-   * approvals screen. `list()` deliberately only returns verified hotels,
-   * so this needs its own endpoint.
-   * NOTE: "/hotels/admin" is a guess — point this at whatever route your
-   * real backend exposes for admin hotel review.
-   */
+  /** Admin-only: every hotel regardless of verification status */
   adminList: async (): Promise<Hotel[]> => {
     if (USE_MOCK) return mockHotelsApi.adminList();
     const { data } = await api.get("/hotels/admin");
     return unwrapList<Hotel>(data);
   },
 
-  /**
-   * Admin-only: approve (true) or reject (false) a pending hotel.
-   * NOTE: "/hotels/:id/verify" is a guess — point this at your real route.
-   */
+  /** Admin-only: approve or reject a pending hotel */
   setVerified: async (hotelId: string, isVerified: boolean): Promise<Hotel> => {
     if (USE_MOCK) return mockHotelsApi.setVerified(hotelId, isVerified);
     const { data } = await api.patch(`/hotels/${hotelId}/verify`, { isVerified });

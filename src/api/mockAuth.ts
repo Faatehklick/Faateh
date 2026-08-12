@@ -1,26 +1,40 @@
 import type { AuthResponse, LoginPayload, RegisterPayload, User } from "../types/user";
 
-/**
- * Fake backend for local development when no real API is running.
- * Persists to localStorage so a page refresh doesn't wipe registered users.
- * Remove this file (and the branch in auth.api.ts) once a real backend exists.
- */
-
 const USERS_KEY = "mock_users";
-const DELAY_MS = 400; // fake network latency so loading states are visible
+const DELAY_MS = 400;
 
 interface StoredUser extends User {
   password: string;
 }
+
+const DEFAULT_ADMIN: StoredUser = {
+  id: "adminuser",
+  name: "System Admin",
+  email: "admin@faateh.com",
+  phone: null,
+  role: "ADMIN",
+  password: "admin123",
+  createdAt: new Date().toISOString(),
+};
 
 const delay = () => new Promise((resolve) => setTimeout(resolve, DELAY_MS));
 
 const readUsers = (): StoredUser[] => {
   try {
     const raw = localStorage.getItem(USERS_KEY);
-    return raw ? (JSON.parse(raw) as StoredUser[]) : [];
+    if (!raw) {
+      const initial = [DEFAULT_ADMIN];
+      localStorage.setItem(USERS_KEY, JSON.stringify(initial));
+      return initial;
+    }
+    const users = JSON.parse(raw) as StoredUser[];
+    if (!users.some((u) => u.email.toLowerCase() === DEFAULT_ADMIN.email.toLowerCase())) {
+      users.unshift(DEFAULT_ADMIN);
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+    return users;
   } catch {
-    return [];
+    return [DEFAULT_ADMIN];
   }
 };
 
@@ -30,11 +44,12 @@ const writeUsers = (users: StoredUser[]) => {
 
 const fakeToken = (userId: string) => `mock-token-${userId}-${Date.now()}`;
 
-/** Extracts the fake user id embedded in a mock token. */
 const userIdFromToken = (token: string | null): string | null => {
   if (!token?.startsWith("mock-token-")) return null;
-  const parts = token.split("-");
-  return parts[2] ?? null;
+  const content = token.replace("mock-token-", "");
+  const lastHyphenIndex = content.lastIndexOf("-");
+  if (lastHyphenIndex === -1) return null;
+  return content.substring(0, lastHyphenIndex);
 };
 
 const toPublicUser = (stored: StoredUser): User => {
@@ -52,7 +67,7 @@ export const mockAuthApi = {
     }
 
     const newUser: StoredUser = {
-      id: crypto.randomUUID(),
+      id: crypto.randomUUID().replace(/-/g, ""),
       name: payload.name,
       email: payload.email,
       phone: payload.phone ?? null,
@@ -69,6 +84,12 @@ export const mockAuthApi = {
   login: async (payload: LoginPayload): Promise<AuthResponse> => {
     await delay();
     const users = readUsers();
+    
+    // Hubinta gaarka ah ee Admin-ka default-ka ah
+    if (payload.email.toLowerCase() === DEFAULT_ADMIN.email.toLowerCase() && payload.password === DEFAULT_ADMIN.password) {
+      return { token: fakeToken(DEFAULT_ADMIN.id), user: toPublicUser(DEFAULT_ADMIN) };
+    }
+
     const found = users.find(
       (u) => u.email.toLowerCase() === payload.email.toLowerCase() && u.password === payload.password,
     );
@@ -84,6 +105,11 @@ export const mockAuthApi = {
     await delay();
     const token = localStorage.getItem("faateh_token");
     const userId = userIdFromToken(token);
+    
+    if (userId === DEFAULT_ADMIN.id) {
+      return toPublicUser(DEFAULT_ADMIN);
+    }
+
     const users = readUsers();
     const found = users.find((u) => u.id === userId);
 

@@ -14,7 +14,7 @@ import Reviews from "../pages/Profile/Reviews";
 import BecomeHost from "../pages/BecomeHost/BecomeHost";
 import NotFound from "../pages/NotFound/NotFound";
 
-// Import your Host Dashboard pages
+// Host Dashboard pages
 import HostDashboard from "../pages/Host/Dashboard";
 import HostBookings from "../pages/Host/Bookings";
 import HostRooms from "../pages/Host/Rooms";
@@ -22,12 +22,38 @@ import HostReviews from "../pages/Host/Reviews";
 import HostSettings from "../pages/Host/Settings";
 import HostProfile from "../pages/Host/Profile";
 
+// Admin Dashboard & Login
+import { AdminDashboard } from "../componens/dashboard/admin/AdminDashboard";
+import AdminLogin from "../pages/Admin/AdminLogin";
 import ProtectedRoute from "./ProtectedRoute";
+import { ProtectedAdminRoute } from "./ProtectedAdminRoute";
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      {/* Host Dashboard Routes (Independent of MainLayout to use HostLayout shell) */}
+      {/* Admin Authentication - Waa inuu ahaadaa mid furan */}
+      <Route path="/admin/login" element={<AdminLogin />} />
+
+      {/* Admin Dashboard Routes */}
+      <Route
+        path="/admin/dashboard"
+        element={
+          <ProtectedAdminRoute>
+            <AdminDashboard />
+          </ProtectedAdminRoute>
+        }
+      />
+      
+      <Route
+        path="/admin"
+        element={
+          <ProtectedAdminRoute>
+            <AdminDashboard />
+          </ProtectedAdminRoute>
+        }
+      />
+
+      {/* Host Dashboard Routes */}
       <Route
         path="/host/dashboard"
         element={
@@ -79,12 +105,10 @@ const AppRoutes: React.FC = () => {
 
       {/* Main Public & Profile Routes */}
       <Route element={<MainLayout />}>
-        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected Profile Routes */}
         <Route
           path="/profile"
           element={
@@ -110,7 +134,6 @@ const AppRoutes: React.FC = () => {
           }
         />
 
-        {/* Protected Host Registration Wizard */}
         <Route
           path="/become-host"
           element={
@@ -120,7 +143,6 @@ const AppRoutes: React.FC = () => {
           }
         />
 
-        {/* 404 Not Found */}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

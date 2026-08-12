@@ -1,11 +1,11 @@
 import { api, unwrapOne } from "./client";
-import { mockAuthApi } from "./mockAuth";
 import type {
   AuthResponse,
   LoginPayload,
   RegisterPayload,
   User,
 } from "../types/user";
+import { mockAuthApi } from "./mockAuth"; // Hubi in jidkani sax yahay
 
 const USE_MOCK = import.meta.env.VITE_MOCK_API === "true";
 
@@ -24,7 +24,7 @@ export const authApi = {
     return unwrapOne<AuthResponse>(data);
   },
 
-  /** GET /api/auth/me — requires a valid JWT. */
+  /** GET /api/auth/me */
   me: async (): Promise<User> => {
     if (USE_MOCK) return mockAuthApi.me();
     const { data } = await api.get("/auth/me");
