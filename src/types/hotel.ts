@@ -56,7 +56,8 @@ export interface Hotel {
   reviewCount?: number;
   minPrice?: number | null;
 
-  createdAt?: string;
+  /** Always set at creation — every hotel (mock or real) has one. */
+  createdAt: string;
   updatedAt?: string;
 }
 
@@ -70,6 +71,8 @@ export interface HotelFilters {
   starRating?: number;
   page?: number;
   limit?: number;
+  /** When true, restricts results to the current user's own hotels (used by myHotels()). */
+  mine?: boolean;
 }
 
 /** Body for POST /api/hotels — mirrors the Become-a-Host wizard. */

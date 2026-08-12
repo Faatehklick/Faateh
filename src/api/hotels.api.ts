@@ -64,4 +64,27 @@ export const hotelsApi = {
     const { data } = await api.get("/hotels", { params: { mine: true } });
     return unwrapList<Hotel>(data);
   },
+
+  /**
+   * Admin-only: every hotel regardless of verification status, for the
+   * approvals screen. `list()` deliberately only returns verified hotels,
+   * so this needs its own endpoint.
+   * NOTE: "/hotels/admin" is a guess — point this at whatever route your
+   * real backend exposes for admin hotel review.
+   */
+  adminList: async (): Promise<Hotel[]> => {
+    if (USE_MOCK) return mockHotelsApi.adminList();
+    const { data } = await api.get("/hotels/admin");
+    return unwrapList<Hotel>(data);
+  },
+
+  /**
+   * Admin-only: approve (true) or reject (false) a pending hotel.
+   * NOTE: "/hotels/:id/verify" is a guess — point this at your real route.
+   */
+  setVerified: async (hotelId: string, isVerified: boolean): Promise<Hotel> => {
+    if (USE_MOCK) return mockHotelsApi.setVerified(hotelId, isVerified);
+    const { data } = await api.patch(`/hotels/${hotelId}/verify`, { isVerified });
+    return unwrapOne<Hotel>(data);
+  },
 };

@@ -107,4 +107,34 @@ export const mockHotelsApi = {
     const uid = currentUserId();
     return readHotels().filter((h) => h.hostId === uid);
   },
+
+  /**
+   * Admin-only: every hotel regardless of verification status, for the
+   * approvals screen. Mirrors hotelsApi.adminList().
+   */
+  adminList: async (): Promise<Hotel[]> => {
+    await delay();
+    return readHotels();
+  },
+
+  /**
+   * Admin-only: approve (true) or reject (false) a pending hotel.
+   * Mirrors hotelsApi.setVerified().
+   */
+  setVerified: async (hotelId: string, isVerified: boolean): Promise<Hotel> => {
+    await delay();
+    const hotels = readHotels();
+    const index = hotels.findIndex((h) => h.id === hotelId);
+    if (index === -1) throw { response: { status: 404, data: { message: "Hotel not found." } } };
+
+    const updated: Hotel = {
+      ...hotels[index],
+      isVerified,
+      updatedAt: new Date().toISOString(),
+    };
+
+    hotels[index] = updated;
+    writeHotels(hotels);
+    return updated;
+  },
 };

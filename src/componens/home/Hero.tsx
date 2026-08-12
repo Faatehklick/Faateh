@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative flex items-center bg-cover bg-center pt-32 pb-20"
+      className="relative flex items-center min-h-[745px] bg-center pt-32 pb-20"
       style={{
         backgroundImage: `linear-gradient(rgba(8,20,40,0.55), rgba(8,20,40,0.85)), url(${heroImage})`,
       }}
