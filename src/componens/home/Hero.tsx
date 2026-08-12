@@ -6,6 +6,7 @@ import heroImage from '../../assets/images/hero.jpg';
 const Hero = () => {
   return (
     <section
+      id="hero"
       className="relative flex items-center bg-cover bg-center pt-32 pb-20"
       style={{
         backgroundImage: `linear-gradient(rgba(8,20,40,0.55), rgba(8,20,40,0.85)), url(${heroImage})`,
@@ -26,10 +27,11 @@ const Hero = () => {
         </p>
 
         <div className="flex items-center justify-center gap-4 mb-10">
-          <Link to="/hotels">
-            <Button variant="primary" className="px-8 py-3">Explore</Button>
-          </Link>
-          <Link to="/host">
+    <Link to="/host/dashboard">
+  <Button variant="primary" className="px-8 py-3">
+    Explore
+  </Button>
+</Link>   <Link to="/host">
             <button className="border border-white/40 text-white font-semibold text-[15px] px-8 py-3 rounded-lg hover:bg-white/10 transition-colors">
               Become Host
             </button>

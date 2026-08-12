@@ -1,19 +1,21 @@
 import Hero from '../../componens/home/Hero';
 import FeaturedHotels from '../../componens/home/FeaturedHotels';
-import FeaturedHouses from '../../componens/home/FeaturedHouses';
 import WhyChooseUs from '../../componens/home/WhyChooseUs';
 import HostCta from '../../componens/home/HostCta';
 import HowItWorks from '../../componens/home/HowItWorks';
+// import AuthSection from '../../componens/home/AuthSection';
+import ContactSection from '../../componens/home/ContactSection';
 
 const Home = () => {
   return (
     <>
       <Hero />
       <FeaturedHotels />
-      <FeaturedHouses />
       <WhyChooseUs />
       <HostCta />
       <HowItWorks />
+      {/* <AuthSection /> */}
+      <ContactSection />
     </>
   );
 };

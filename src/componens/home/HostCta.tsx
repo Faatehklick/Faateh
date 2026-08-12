@@ -2,18 +2,18 @@ import { Link } from 'react-router-dom';
 import hostImage from '../../assets/images/howitworks.jpg';
 
 const perks = [
-  'Free to list your property',
-  'Get paid directly to your account',
+  'Free to list your hotel',
+  'Get verified by admin & start accepting bookings',
   '24/7 host support team',
 ];
 
 const HostCta = () => {
   return (
-    <section className="max-w-7xl mx-auto px-8 pt-20">
+    <section id="host" className="max-w-7xl mx-auto px-8 pt-20">
       <div
         className="relative rounded-2xl overflow-hidden px-10 py-12 sm:px-14 sm:py-14"
         style={{
-          backgroundImage: `linear-gradient(120deg, rgba(37,95,80,0.92), rgba(29,78,180,0.88)), url(${hostImage})`,
+          backgroundImage: `linear-gradient(120deg, rgba(15,23,42,0.92), rgba(30,58,138,0.88)), url(${hostImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -21,14 +21,14 @@ const HostCta = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 items-center">
           <div>
             <p className="text-xs font-bold tracking-[0.15em] text-blue-200 uppercase mb-3">
-              For Property Owners
+              For Hotel Owners
             </p>
             <h2 className="text-white font-bold text-3xl sm:text-4xl leading-tight mb-4">
-              Own a Hotel or Home?<br />Start Earning Today.
+              Own a Hotel in Somalia?<br />List Your Property Today.
             </h2>
             <p className="text-blue-100 text-[15px] leading-relaxed max-w-md">
-              Join thousands of hosts on StayEase and reach travelers from across
-              Somalia and beyond. Simple setup, real income.
+              Reach travelers across Mogadishu, Hargeisa, Garowe, and beyond.
+              Register your hotel, get verified by our team, and start receiving bookings.
             </p>
           </div>
 
@@ -46,12 +46,13 @@ const HostCta = () => {
               ))}
             </ul>
 
+            {/* Navigates to the dedicated Become Host page */}
             <Link
-              to="/host"
-              className="inline-flex items-center justify-center gap-2 bg-white hover:bg-blue-50 text-blue-700 font-semibold text-sm px-6 py-3 rounded-lg transition-colors mt-2"
-            >
-              Become a Host →
-            </Link>
+  to="/become-host"
+  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-blue-50 text-blue-900 font-semibold text-sm px-6 py-3 rounded-lg transition-colors mt-2 text-center"
+>
+  Become a Host →
+</Link>
           </div>
         </div>
       </div>
