@@ -79,12 +79,12 @@ const FeaturedHotels = () => {
       ) : hotels.length === 0 ? (
         <div className="text-center py-16 rounded-xl border border-dashed border-gray-200 bg-gray-50/60">
           <p className="text-gray-500 text-sm mb-4">No hotels listed yet.</p>
-          <a
-            href="/host"
+          <Link
+            to="/become-host"
             className="inline-block bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors"
           >
             List Your Hotel
-          </a>
+          </Link>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
